@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import ViewPager from 'react-native-viewpager';
 import Dimensions from "Dimensions";
-// import Article from './Article.js';
+import Article from './Article.js';
 
 let {width,height} = Dimensions.get("window");
 const IMGS = [
@@ -41,24 +41,24 @@ export default class News extends Component{
 	}
 
 	_renderRow(row){
-		class Art extends Component{
-			constructor(props){
-				super(props);
-			}
-			render(){
-				return(
-					<View style={{flex:1}}>
-						<WebView 
-							source={{uri:row.url}}
-							javaScriptEnabled={true}
-		          			domStorageEnabled={true}
-					  	/>
-					</View>
-				)
-			}
-		}
+		// class Art extends Component{
+		// 	constructor(props){
+		// 		super(props);
+		// 	}
+		// 	render(){
+		// 		return(
+		// 			<View style={{flex:1}}>
+		// 				<WebView 
+		// 					source={{uri:row.url}}
+		// 					javaScriptEnabled={true}
+		//           			domStorageEnabled={true}
+		// 			  	/>
+		// 			</View>
+		// 		)
+		// 	}
+		// }
 		return(
-			<TouchableOpacity onPress={ () => this.props.navigator.push({component:Art}) }>
+			<TouchableOpacity onPress={ () => this.props.navigator.push({component:Article}) }>
 				<View style={styles.list}>
 					<Image source={{uri : row.thumbnail_pic_s}} style={styles.thumb}/>
 					<View style={{flex : 1}}>
@@ -76,7 +76,7 @@ export default class News extends Component{
 		fetch(url)
 			.then((response) => response.json())
 			.then((json) => {
-				console.log(json);
+				// console.log(json);
 				this.setState({
 					dataSource : this.state.dataSource.cloneWithRows(json.result.data)
 				})
@@ -100,7 +100,7 @@ export default class News extends Component{
 			listViewContent = <Text>没有任何新闻</Text>
 		} else{
 			// 有数据
-			listViewContent = <ListView dataSource={this.state.dataSource} renderRow={this._renderRow}/>
+			listViewContent = <ListView dataSource={this.state.dataSource} renderRow={this._renderRow.bind(this)}/>
 		}
 		return(
 			<View style={styles.container}>
